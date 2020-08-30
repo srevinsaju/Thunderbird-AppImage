@@ -1,0 +1,211 @@
+
+name: Release
+on:
+  schedule:
+    - cron: "5 */12 * * *"
+  push:
+    branches:
+      - "master"
+
+
+jobs:
+  Thunderbird:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        version: ['3.8']
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download Thunderbird
+      run: |
+        mkdir thunderbird
+        cd thunderbird
+        wget $(xmllint --html index.html --xpath '/html/body/header/section[2]/div/div/ul/li[4]/a' 2&> /dev/null | grep -E -o 'href="(.*" )' | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        tar -xf thunderbird.tar.bz2
+        cd ..
+
+    - name: Patch to include files
+      run: |
+        cd thunderbird
+        cp ../AppRun thunderbird/.
+        chmod +x thunderbird/AppRun
+        cp ../thunderbird.desktop thunderbird/.
+        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        mv thunderbird/default128.png thunderbird/thunderbird.png
+        cd ..
+    
+    - name: Patch AppImage
+      run: |
+        cd thunderbird
+        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        chmod +x *.AppImage
+        ./appimagetool-x86_64.AppImage --comp gzip thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|latest|Thunderbird*.AppImage.zsync'
+        mkdir dist
+        mv Thunderbird*.AppImage dist/.
+        cd dist
+        mv *.AppImage Thunderbird-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        chmod +x *.AppImage
+        cd ..
+       
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: thunderbird-continuous-x86_64.AppImage
+        path: 'thunderbird/dist'
+
+  Thunderbird-Beta:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        version: ['3.8']
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download Thunderbird Beta
+      run: |
+        mkdir thunderbird
+        cd thunderbird
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[5]/section/article[2]/section[1]/main/aside/div/ul/li[4]/a' 2&> /dev/null | grep -E -o 'href="(.*" )' | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        tar -xf thunderbird.tar.bz2
+        cd ..
+
+    - name: Patch to include files
+      run: |
+        cd thunderbird
+        cp ../AppRun thunderbird/.
+        chmod +x thunderbird/AppRun
+        cp ../thunderbird-beta.desktop thunderbird/.
+        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        mv thunderbird/default128.png thunderbird/thunderbird-beta.png
+        cd ..
+    
+    - name: Patch AppImage
+      run: |
+        cd thunderbird
+        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        chmod +x *.AppImage
+        ./appimagetool-x86_64.AppImage --comp gzip thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|latest|Thunderbird*.AppImage.zsync'
+        mkdir dist
+        mv Thunderbird*.AppImage dist/.
+        cd dist
+        mv *.AppImage ThunderbirdBeta-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        chmod +x *.AppImage
+        cd ..
+       
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: thunderbird-beta-continuous-x86_64.AppImage
+        path: 'thunderbird/dist'
+
+  Thunderbird-Nightly:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        version: ['3.8']
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download Thunderbird Nightly
+      run: |
+        mkdir thunderbird
+        cd thunderbird
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[5]/section/article[2]/section[2]/main/aside/div/ul/li[4]/a' 2&> /dev/null | grep -E -o 'href="(.*" )' | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        tar -xf thunderbird.tar.bz2
+        cd ..
+
+    - name: Patch to include files
+      run: |
+        cd thunderbird
+        cp ../AppRun thunderbird/.
+        chmod +x thunderbird/AppRun
+        cp ../thunderbird-nightly.desktop thunderbird/.
+        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        mv thunderbird/default128.png thunderbird/thunderbird-nightly.png
+        cd ..
+    
+    - name: Patch AppImage
+      run: |
+        cd thunderbird
+        wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+        chmod +x *.AppImage
+        ./appimagetool-x86_64.AppImage --comp gzip thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|latest|Thunderbird*.AppImage.zsync'
+        mkdir dist
+        mv Thunderbird*.AppImage dist/.
+        cd dist
+        mv *.AppImage ThunderbirdNightly-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        chmod +x *.AppImage
+        cd ..
+       
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: thunderbird-nightly-continuous-x86_64.AppImage
+        path: 'thunderbird/dist'
+
+
+
+  Release:
+    needs: [Thunderbird]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: thunderbird-continuous-x86_64.AppImage
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        title: Thunderbird Stable AppImage Builds
+        automatic_release_tag: stable
+        prerelease: false
+        draft: false
+        files: |
+          thunderbird-continuous-x86_64.AppImage
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-Beta:
+    needs: [Thunderbird-Beta]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: thunderbird-beta-continuous-x86_64.AppImage
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        title: Thunderbird Beta AppImage Builds
+        automatic_release_tag: beta
+        prerelease: true
+        draft: false
+        files: |
+          thunderbird-beta-continuous-x86_64.AppImage
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+  Release-Nightly:
+    needs: [Thunderbird-Nightly]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/download-artifact@v1
+      with:
+        name: thunderbird-nightly-continuous-x86_64.AppImage
+
+    - name: Release
+      uses: marvinpinto/action-automatic-releases@latest
+      with:
+        title: Thunderbird Nightly AppImage Builds
+        automatic_release_tag: nightly
+        prerelease: true
+        draft: false
+        files: |
+          thunderbird-nightly-continuous-x86_64.AppImage
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+
