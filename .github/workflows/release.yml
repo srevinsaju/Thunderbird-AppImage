@@ -23,7 +23,8 @@ jobs:
         mkdir thunderbird
         cd thunderbird
         wget https://www.thunderbird.net/en-GB/ -O index.html
-        wget $(xmllint --html index.html --xpath '/html/body/header/section[2]/div/div/ul/li[4]/a' 2&> /dev/null | grep -E -o 'href="(.*" )' | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        echo "Downloading"
+        wget $(xmllint --html index.html --xpath '/html/body/header/section[2]/div/div/ul/li[4]/a' | grep -E -o 'href="(.*" )' | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
