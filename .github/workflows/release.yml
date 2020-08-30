@@ -34,7 +34,7 @@ jobs:
         cp ../AppRun thunderbird/.
         chmod +x thunderbird/AppRun
         cp ../thunderbird.desktop thunderbird/.
-        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        cp thunderbird/chrome/icons/default/default128.png thunderbird/.
         mv thunderbird/default128.png thunderbird/thunderbird.png
         cd ..
     
@@ -82,7 +82,7 @@ jobs:
         cp ../AppRun thunderbird/.
         chmod +x thunderbird/AppRun
         cp ../thunderbird-beta.desktop thunderbird/.
-        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        cp thunderbird/chrome/icons/default/default128.png thunderbird/.
         mv thunderbird/default128.png thunderbird/thunderbird-beta.png
         cd ..
     
@@ -130,7 +130,7 @@ jobs:
         cp ../AppRun thunderbird/.
         chmod +x thunderbird/AppRun
         cp ../thunderbird-nightly.desktop thunderbird/.
-        cp thunderbird/browser/chrome/icons/default/default128.png thunderbird/.
+        cp thunderbird/chrome/icons/default/default128.png thunderbird/.
         mv thunderbird/default128.png thunderbird/thunderbird-nightly.png
         cd ..
     
