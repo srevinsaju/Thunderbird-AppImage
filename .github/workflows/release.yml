@@ -43,7 +43,7 @@ jobs:
         cd thunderbird
         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
         chmod +x *.AppImage
-        ./appimagetool-x86_64.AppImage thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|stable|Thunderbird*.AppImage.zsync' Thunderbird-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        ./appimagetool-x86_64.AppImage thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|stable|Thunderbird*.AppImage.zsync' Thunderbird-$(cat thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
         mkdir dist
         mv Thunderbird*.AppImage* dist/.
         cd dist
@@ -90,7 +90,7 @@ jobs:
         cd thunderbird
         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
         chmod +x *.AppImage
-        ./appimagetool-x86_64.AppImagep thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|beta|Thunderbird*.AppImage.zsync' ThunderbirdBeta-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        ./appimagetool-x86_64.AppImagep thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|beta|Thunderbird*.AppImage.zsync' ThunderbirdBeta-$(cat thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
         mkdir dist
         mv Thunderbird*.AppImage* dist/.
         cd dist
@@ -137,7 +137,7 @@ jobs:
         cd thunderbird
         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
         chmod +x *.AppImage
-        ./appimagetool-x86_64.AppImage --comp gzip thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|nightly|Thunderbird*.AppImage.zsync' ThunderbirdNightly-$(cat ../thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat ../thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
+        ./appimagetool-x86_64.AppImage --comp gzip thunderbird -n -u 'gh-releases-zsync|srevinsaju|thunderbird-appimage|nightly|Thunderbird*.AppImage.zsync' ThunderbirdNightly-$(cat thunderbird/application.ini | grep -E 'Version' | head -n 1 | grep -E -o '[0-9]+.[0-9]+')_$(cat thunderbird/application.ini | grep -E 'BuildID' | head -n 1 | grep -E -o '[0-9]+').AppImage
         mkdir dist
         mv Thunderbird*.AppImage* dist/.
         cd dist
