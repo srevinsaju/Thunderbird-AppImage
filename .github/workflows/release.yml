@@ -23,10 +23,10 @@ jobs:
         sudo apt install -y libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/ -O index.html
+        wget https://www.thunderbird.net/en-US/about -O index.html
         echo "Downloading"
         
-        wget $(xmllint --html index.html --xpath '/html/body/nav/div/div/div/div/div[1]/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[1]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g')' -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -72,8 +72,8 @@ jobs:
         sudo apt -y install libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/download/beta -O index.html
-        wget $(xmllint --html index.html --xpath '/html/body/main/div/div/div[1]/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget https://www.thunderbird.net/en-US/download/about -O index.html
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[2]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -119,8 +119,8 @@ jobs:
         sudo apt -y install libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/ -O index.html 
-        wget $(xmllint --html index.html --xpath '/html/body/main/section[5]/section/article[2]/section[3]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget https://www.thunderbird.net/en-US/about -O index.html 
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[3]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -205,6 +205,7 @@ jobs:
     - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-nightly-continuous-x86_64.AppImage
+        path: thunderbird-nightly-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
