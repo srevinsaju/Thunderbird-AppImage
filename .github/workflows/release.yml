@@ -1,6 +1,7 @@
 
 name: Release
 on:
+  workflow_dispatch:
   schedule:
     - cron: "5 */12 * * *"
   push:
@@ -10,22 +11,22 @@ on:
 
 jobs:
   Thunderbird:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird
       run: |
         sudo apt install -y libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/ -O index.html
+        wget https://www.thunderbird.net/en-US/about -O index.html
         echo "Downloading"
         
-        wget $(xmllint --html index.html --xpath '/html/body/header/section[2]/div/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[1]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -53,26 +54,26 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
 
   Thunderbird-Beta:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird Beta
       run: |
         sudo apt -y install libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/ -O index.html
-        wget $(xmllint --html index.html --xpath '/html/body/main/section[5]/section/article[2]/section[2]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget https://www.thunderbird.net/en-US/about -O index.html
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[2]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -100,26 +101,26 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-beta-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
 
   Thunderbird-Nightly:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird Nightly
       run: |
         sudo apt -y install libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/ -O index.html 
-        wget $(xmllint --html index.html --xpath '/html/body/main/section[5]/section/article[2]/section[3]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -E -o 'href="(.*" )' | cut -d " " -f1 | grep -E -o '"(.*)"' | sed 's/\&amp;/\&/g' | tail -n 1 | sed 's,",,g') -O thunderbird.tar.bz2
+        wget https://www.thunderbird.net/en-US/about -O index.html 
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[3]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -147,7 +148,7 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-nightly-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
@@ -159,9 +160,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-continuous-x86_64.AppImage
+        path: thunderbird-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -179,9 +181,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-beta-continuous-x86_64.AppImage
+        path: thunderbird-beta-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -199,9 +202,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-nightly-continuous-x86_64.AppImage
+        path: thunderbird-nightly-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
