@@ -26,7 +26,7 @@ jobs:
         wget https://www.thunderbird.net/en-US/about -O index.html
         echo "Downloading"
         
-        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[1]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g')' -O thunderbird.tar.bz2
+        wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[1]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
 
@@ -72,7 +72,7 @@ jobs:
         sudo apt -y install libxml2-utils
         mkdir thunderbird
         cd thunderbird
-        wget https://www.thunderbird.net/en-US/download/about -O index.html
+        wget https://www.thunderbird.net/en-US/about -O index.html
         wget $(xmllint --html index.html --xpath '/html/body/main/section[4]/section/article[2]/section[2]/main/aside/div/ul/li[4]/a' 2>/dev/null | grep -Po 'href="\K[^"]*' | sed 's|\&amp;|\&|g') -O thunderbird.tar.bz2
         tar -xf thunderbird.tar.bz2
         cd ..
