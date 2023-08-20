@@ -163,6 +163,7 @@ jobs:
     - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-continuous-x86_64.AppImage
+        path: thunderbird-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
@@ -183,6 +184,7 @@ jobs:
     - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-beta-continuous-x86_64.AppImage
+        path: thunderbird-beta-continuous-x86_64.AppImage
 
     - name: Release
       uses: marvinpinto/action-automatic-releases@latest
