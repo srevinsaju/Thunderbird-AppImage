@@ -16,7 +16,7 @@ jobs:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird
       run: |
@@ -54,18 +54,18 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
 
   Thunderbird-Beta:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird Beta
       run: |
@@ -101,18 +101,18 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-beta-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
 
   Thunderbird-Nightly:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         version: ['3.8']
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3.5.3
 
     - name: Download Thunderbird Nightly
       run: |
@@ -148,7 +148,7 @@ jobs:
        
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3.1.2
       with:
         name: thunderbird-nightly-continuous-x86_64.AppImage
         path: 'thunderbird/dist'
@@ -160,7 +160,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-continuous-x86_64.AppImage
 
@@ -180,7 +180,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-beta-continuous-x86_64.AppImage
 
@@ -200,7 +200,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@v1
+    - uses: actions/download-artifact@v2.1.1
       with:
         name: thunderbird-nightly-continuous-x86_64.AppImage
 
