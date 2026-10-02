@@ -1,4 +1,4 @@
-> [!INFO]
+> [!NOTE]
 >
 > Thunderbird AppImage is no longer maintained, feel free to fork, or use [ivan-hc/Thunderbird-appimage](https://github.com/ivan-hc/Thunderbird-appimage).
 
