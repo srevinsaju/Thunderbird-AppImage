@@ -1,3 +1,8 @@
+> [!INFO]
+>
+> Thunderbird AppImage is no longer maintained, feel free to fork, or use [ivan-hc/Thunderbird-appimage](https://github.com/ivan-hc/Thunderbird-appimage).
+
+
 <h1 align="center">
 	<img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Thunderbird_Logo%2C_2018.svg" alt="Firefox" height=200 width=200 align="middle">
 	Thunderbird AppImage
